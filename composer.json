@@ -1,0 +1,25 @@
+{
+  "name": "b3da/pusher-bundle",
+  "type": "symfony-bundle",
+  "description": "Symfony bundle for Android and Ios push notifications",
+  "keywords": ["symfony", "push", "notification", "push notifications", "android", "ios", "firebase", "fcm", "gcm", "apns", "cordova", "ionic"],
+  "homepage": "https://github.com/b3da-cz/PusherBundle",
+  "license": "GPLV3",
+  "authors": [
+    {
+      "name": "Tomas Beran",
+      "email": "b3da@b3da.net",
+      "homepage": "http://b3da.net"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "symfony/framework-bundle": "~2.8|~3.1"
+  },
+  "autoload": {
+    "psr-0": {
+      "b3da\\PusherBundle": ""
+    }
+  },
+  "target-dir": "b3da/PusherBundle"
+}

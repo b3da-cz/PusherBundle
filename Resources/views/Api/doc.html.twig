@@ -69,15 +69,34 @@
     </pre>
 </div>
 
+<br>
+<br>
+<h2>Endpoints</h2>
 <div id="android">
     <h3>Android - Firebase Cloud Messaging</h3>
     <p>url: &nbsp; {{ url('b3da_pusher.api.send_android_fcm') }}</p>
+    params:
+    <ul>
+        <li>recipient</li>
+        <li>title</li>
+        <li>message</li>
+        <li>sound</li>
+        <li>notification_id</li>
+    </ul>
     <strong>Try it: <em>{% if config.fcm.key is empty %}<a href="#config" style="color: red;"> set 'server_key' in config!</a>{% endif %}</em></strong>
     {{ form(android_fcm_form) }}
     <div id="android_fcm_result">...result</div>
 
     <h3>Android - Google Cloud Messaging</h3>
     <p>url: &nbsp; {{ url('b3da_pusher.api.send_android_gcm') }}</p>
+    params:
+    <ul>
+        <li>recipient</li>
+        <li>title</li>
+        <li>message</li>
+        <li>sound</li>
+        <li>notification_id</li>
+    </ul>
     <strong>Try it: <em>{% if config.gcm.key is empty %}<a href="#config" style="color: red;"> set 'server_key' in config!</a>{% endif %}</em></strong>
     {{ form(android_gcm_form) }}
     <div id="android_fcm_result">...result</div>
@@ -86,6 +105,13 @@
 <div id="ios">
     <h3>Ios - Apple Push Notification Service</h3>
     <p>url: &nbsp; {{ url('b3da_pusher.api.send_ios') }}</p>
+    params:
+    <ul>
+        <li>recipient</li>
+        <li>title</li>
+        <li>message</li>
+        <li>sound</li>
+    </ul>
     <strong>Try it:
         <em>{% if config.apn.passphrase is empty %}<a href="#config" style="color: red;"> set 'passphrase' in config!</a> &nbsp;{% endif %}</em>
         <em>{% if config.apn.cert_path is empty %}<a href="#config" style="color: red;">set 'cert_path' in config</a>{% else %}{{ config.apn.cert_path }}{% endif %}</em>
