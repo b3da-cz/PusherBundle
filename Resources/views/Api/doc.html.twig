@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>b3da/PusherBundle API doc</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+</head>
+<body>
+<h1>b3da\PusherBundle</h1>
+
+<h3>Loaded configuration:</h3>
+<ul>
+    <li><strong>Firebase Cloud Messaging</strong>
+        <ul>
+            <li>server url: &nbsp; <em>{{ config.fcm.url }}</em></li>
+            <li>server key: &nbsp; <em>{% if config.fcm.key is empty %}<a href="#config" style="color: red;">set 'server_key' in config</a>{% else %}{{ config.fcm.key }}{% endif %}</em></li>
+            <li>proxy: &nbsp; <em>{{ config.fcm.proxy }}</em></li>
+        </ul>
+    </li>
+    <li><strong>Google Cloud Messaging</strong>
+        <ul>
+            <li>server url: &nbsp; <em>{{ config.gcm.url }}</em></li>
+            <li>server key: &nbsp; <em>{% if config.gcm.key is empty %}<a href="#config" style="color: red;">set 'server_key' in config</a>{% else %}{{ config.gcm.key }}{% endif %}</em></li>
+            <li>proxy: &nbsp; <em>{{ config.gcm.proxy }}</em></li>
+        </ul>
+    </li>
+    <li><strong>Apple Push Notification Service</strong>
+        <ul>
+            <li>server url: &nbsp; <em>{{ config.apn.url }}</em></li>
+            <li>passphrase: &nbsp; <em>{% if config.apn.passphrase is empty %}<a href="#config" style="color: red;">set 'passphrase' in config</a>{% else %}{{ config.apn.passphrase }}{% endif %}</em></li>
+            <li>cert_path: &nbsp; <em>{% if config.apn.cert_path is empty %}<a href="#config" style="color: red;">set 'cert_path' in config</a>{% else %}{{ config.apn.cert_path }}{% endif %}</em></li>
+        </ul>
+    </li>
+</ul>
+
+<br>
+<br>
+<div id="config">
+    <h3>Configure bundle:</h3>
+    <h4>Set your Firebase | Google server key | APN passphrase and certificate path in config.yml (minimum configuration)</h4>
+    <pre>
+        b3da_pusher:
+            fcm:
+                server_key: 'foobarbaz'
+            gcm:
+                server_key: 'foobarbaz'
+            apn:
+                passphrase: 'foobarbaz'
+                cert_path: 'cert.pem'  # relative to app root dir
+    </pre>
+    <h4>Full default configuration</h4>
+    <pre>
+        b3da_pusher:
+            fcm:
+                server_url: 'https://fcm.googleapis.com/fcm/send'
+                server_key: null   # must be defined to use FCM
+                proxy: null
+            gcm:
+                server_url: 'https://android.googleapis.com/gcm/send'
+                server_key: null   # must be defined to use GCM
+                proxy: null
+            apn:
+                server_url: 'ssl://gateway.sandbox.push.apple.com:2195'
+                passphrase: null   # must be defined to use APN
+                cert_path: 'cert.pem'   # must be defined to use APN
+    </pre>
+</div>
+
+<div id="android">
+    <h3>Android - Firebase Cloud Messaging</h3>
+    <p>url: &nbsp; {{ url('b3da_pusher.api.send_android_fcm') }}</p>
+    <strong>Try it: <em>{% if config.fcm.key is empty %}<a href="#config" style="color: red;"> set 'server_key' in config!</a>{% endif %}</em></strong>
+    {{ form(android_fcm_form) }}
+    <div id="android_fcm_result">...result</div>
+
+    <h3>Android - Google Cloud Messaging</h3>
+    <p>url: &nbsp; {{ url('b3da_pusher.api.send_android_gcm') }}</p>
+    <strong>Try it: <em>{% if config.gcm.key is empty %}<a href="#config" style="color: red;"> set 'server_key' in config!</a>{% endif %}</em></strong>
+    {{ form(android_gcm_form) }}
+    <div id="android_fcm_result">...result</div>
+</div>
+
+<div id="ios">
+    <h3>Ios - Apple Push Notification Service</h3>
+    <p>url: &nbsp; {{ url('b3da_pusher.api.send_ios') }}</p>
+    <strong>Try it:
+        <em>{% if config.apn.passphrase is empty %}<a href="#config" style="color: red;"> set 'passphrase' in config!</a> &nbsp;{% endif %}</em>
+        <em>{% if config.apn.cert_path is empty %}<a href="#config" style="color: red;">set 'cert_path' in config</a>{% else %}{{ config.apn.cert_path }}{% endif %}</em>
+    </strong>
+    {{ form(ios_form) }}
+    <div id="ios_result">...result</div>
+</div>
+
+<script>
+    $('form[name="form_android_fcm"]').submit(function(e) {
+        $.ajax({
+            url: '{{ path('b3da_pusher.api.send_android_fcm') }}',
+            type: 'post',
+            data: 'recipient=' + $('#form_android_fcm_recipient').val() + '&title=' + $('#form_android_fcm_title').val() + '&message=' + $('#form_android_fcm_message').val() + '&sound=' + $('#form_android_fcm_sound').val() + '&notification_id=' + $('#form_android_fcm_notification_id').val()
+        }).done(function (res) {
+            $('#android_fcm_result').html(JSON.stringify(res));
+            console.log('Android:FCM:success ', res); // TODO: remove
+        }).fail(function (err) {
+            $('#android_fcm_result').html(err);
+            console.warn('Android:FCM:error ', err); // TODO: remove
+        });
+        return false;
+    });
+
+    $('form[name="form_android_gcm"]').submit(function(e) {
+        $.ajax({
+            url: '{{ path('b3da_pusher.api.send_android_gcm') }}',
+            type: 'post',
+            data: 'recipient=' + $('#form_android_gcm_recipient').val() + '&title=' + $('#form_android_gcm_title').val() + '&message=' + $('#form_android_gcm_message').val() + '&sound=' + $('#form_android_gcm_sound').val() + '&notification_id=' + $('#form_android_gcm_notification_id').val()
+        }).done(function (res) {
+            $('#android_gcm_result').html(JSON.stringify(res));
+            console.log('Android:GCM:success ', res); // TODO: remove
+        }).fail(function (err) {
+            $('#android_gcm_result').html(err);
+            console.warn('Android:GCM:error ', err); // TODO: remove
+        });
+        return false;
+    });
+
+    $('form[name="form_ios"]').submit(function(e) {
+        $.ajax({
+            url: '{{ path('b3da_pusher.api.send_ios') }}',
+            type: 'post',
+            data: 'recipient=' + $('#form_ios_recipient').val() + '&title=' + $('#form_ios_title').val() + '&message=' + $('#form_ios_message').val() + '&sound=' + $('#form_ios_sound').val()
+        }).done(function (res) {
+            $('#ios_result').html(JSON.stringify(res));
+            console.log('IOS:success ', res); // TODO: remove
+        }).fail(function (err) {
+            $('#android_gcm_result').html(err);
+            console.warn('IOS:error ', err); // TODO: remove
+        });
+        return false;
+    });
+</script>
+</body>
+</html>

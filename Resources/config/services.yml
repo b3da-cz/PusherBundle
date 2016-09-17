@@ -1,0 +1,10 @@
+services:
+    b3da_pusher.android.fcm:
+        class: b3da\PusherBundle\Service\FCM
+        arguments: ["%b3da_pusher.fcm.server_url%", "%b3da_pusher.fcm.server_key%", "%b3da_pusher.fcm.proxy%"]
+    b3da_pusher.android.gcm:
+        class: b3da\PusherBundle\Service\GCM
+        arguments: ["%b3da_pusher.gcm.server_url%", "%b3da_pusher.gcm.server_key%", "%b3da_pusher.gcm.proxy%"]
+    b3da_pusher.ios.apn:
+        class: b3da\PusherBundle\Service\APN
+        arguments: ["%b3da_pusher.apn.server_url%", "%b3da_pusher.apn.passphrase%", "%b3da_pusher.apn.cert_path%", "%kernel.root_dir%"]
