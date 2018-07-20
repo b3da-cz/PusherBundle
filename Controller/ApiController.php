@@ -105,6 +105,7 @@ class ApiController extends Controller
     public function sendAndroidFcmAction(Request $request) {
         $recipient = $request->request->get('recipient');
         $msgTitle = $request->request->get('title');
+        $msgData = $request->request->get('data');
         $msgSound = $request->request->get('sound');
         $msgNotificationId = $request->request->get('notification_id');
         $msgBody = $request->request->get('message');
@@ -117,7 +118,8 @@ class ApiController extends Controller
 
         $fcm = $this->get('b3da_pusher.android.fcm');
         $message = new Message($msgTitle, $msgBody, $msgSound, $msgNotificationId);
-        $fcm->notify($recipient, $message->composeAndroidFcmMessage());
+//        $message->setData($msgData); // set data, if notifying from another method etc
+        $fcm->notify($recipient, $message->composeAndroidFcmMessage(), $msgData);
 
         return new JsonResponse([
             'status' => 'ok',

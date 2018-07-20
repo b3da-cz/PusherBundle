@@ -55,11 +55,15 @@ class FCM
 
     /**
      * @param string|array $regIds
-     * @param string $data
+     * @param string|array|null $notification
+     * @param string|array|null $data
      * @throws \Exception
      */
-    public function notify($regIds, $data)
+    public function notify($regIds, $notification = null, $data = null)
     {
+        if (!$notification && !$data) {
+            throw new \Exception('FCM: nothing to send!');
+        }
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->url);
         if (!is_null($this->proxy)) {
@@ -68,7 +72,7 @@ class FCM
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->getHeaders());
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getPostFields($regIds, $data));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getPostFields($regIds, $notification, $data));
 
         $result = curl_exec($ch);
         if ($result === false) {
@@ -109,16 +113,20 @@ class FCM
 
     /**
      * @param string|array $regIds
-     * @param string|array $data
+     * @param string|array|null $notification
+     * @param string|array|null $data
      * @return string
      */
-    private function getPostFields($regIds, $data)
+    private function getPostFields($regIds, $notification = null, $data = null)
     {
         is_string($regIds) ? $recipientKey = 'to' : $recipientKey = 'registration_ids';
-        $fields = [
-            $recipientKey => $regIds,
-            'notification' => is_string($data) ? ['text' => $data] : $data,
-        ];
+        $fields = [$recipientKey => $regIds];
+        if ($notification) {
+            $fields['notification'] = is_string($notification) ? ['text' => $notification] : $notification;
+        }
+        if ($data) {
+            $fields['data'] = is_string($data) ? ['value' => $data] : $data;
+        }
 
         return json_encode($fields, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
     }

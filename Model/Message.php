@@ -22,6 +22,11 @@ class Message
     private $body;
 
     /**
+     * @var array $data
+     */
+    private $data;
+
+    /**
      * Notification sound
      * defaults to 'default'
      * can be 'none', 'default' or notification sound name
@@ -41,8 +46,8 @@ class Message
      * Message constructor
      * @param string $title
      * @param string $body
-     * @param string $sound
-     * @param int $notificationId
+     * @param string|null $sound
+     * @param int|null $notificationId
      */
     public function __construct($title, $body, $sound = 'default', $notificationId = 1)
     {
@@ -125,6 +130,22 @@ class Message
     public function setBody($body)
     {
         $this->body = $body;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
     }
 
     /**
