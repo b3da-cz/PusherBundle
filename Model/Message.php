@@ -57,10 +57,10 @@ class Message
      */
     public function composeAndroidGcmMessage() {
         $message = [
-            "title" => $this->title,
-            "message" => $this->body,
-            "sound" => $this->sound,
-            "notId" => $this->notificationId,
+            'title' => $this->title,
+            'message' => $this->body,
+            'sound' => $this->sound,
+            'notId' => $this->notificationId,
         ];
 
         return $message;
@@ -71,10 +71,10 @@ class Message
      */
     public function composeAndroidFcmMessage() {
         $message = [
-            "title" => $this->title,
-            "message" => $this->body,
-            "sound" => $this->sound,
-            "tag" => 'notification_' . $this->notificationId,
+            'title' => $this->title,
+            'text' => $this->body,
+            'sound' => $this->sound,
+            'tag' => 'notification_' . $this->notificationId,
         ];
 
         return $message;
@@ -85,11 +85,11 @@ class Message
      */
     public function composeIosMessage() {
         $message = [
-            "alert" => [
-                "title" => $this->title,
-                "body" => $this->body,
+            'alert' => [
+                'title' => $this->title,
+                'body' => $this->body,
             ],
-            "sound" => $this->sound,
+            'sound' => $this->sound,
         ];
 
         return $message;

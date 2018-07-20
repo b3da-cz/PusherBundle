@@ -117,7 +117,7 @@ class FCM
         is_string($regIds) ? $recipientKey = 'to' : $recipientKey = 'registration_ids';
         $fields = [
             $recipientKey => $regIds,
-            'data' => is_string($data) ? ['message' => $data] : $data,
+            'notification' => is_string($data) ? ['text' => $data] : $data,
         ];
 
         return json_encode($fields, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
