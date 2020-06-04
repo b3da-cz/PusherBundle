@@ -10,7 +10,7 @@ namespace b3da\PusherBundle\Controller;
 
 
 use b3da\PusherBundle\Model\Message;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,7 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 /**
  * @Route("/api")
  */
-class ApiController extends Controller
+class ApiController extends AbstractController
 {
     /**
      * @Route("/doc/", name="b3da_pusher.api.doc")
