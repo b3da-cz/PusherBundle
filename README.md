@@ -40,34 +40,43 @@ b3da_pusher:
 
 * Android - Firebase Cloud Messaging
 ```php
-$msgSound = 'default';  # optional - can be 'default', 'none', or notification sound name
-$msgNotoficationId = 1;  # optional - increment for display multiple notification simultaneously
-$fcm = $this->get('b3da_pusher.android.fcm');
-$message = new b3da\PusherBundle\Model\Message('title', 'message body', $msgSound, $msgNotificationId);
-$fcm->notify($recipient, $message->composeAndroidFcmMessage());
-# result:
-dump($fcm->getOutputAsObject());
+use b3da\PusherBundle\Service\FCM;
+
+public function send(FCM $fcm) {
+    $msgSound = 'default';  # optional - can be 'default', 'none', or notification sound name
+    $msgNotoficationId = 1;  # optional - increment for display multiple notification simultaneously
+    $message = new b3da\PusherBundle\Model\Message('title', 'message body', $msgSound, $msgNotificationId);
+    $fcm->notify($recipient, $message->composeAndroidFcmMessage());
+    # result:
+    dump($fcm->getOutputAsObject());
+}
 ```
 
 * Android - Google Cloud Messaging (deprecated)
 ```php
-$msgSound = 'default';  # optional - can be 'default', 'none', or notification sound name
-$msgNotoficationId = 1;  # optional - increment for display multiple notification simultaneously
-$gcm = $this->get('b3da_pusher.android.gcm');
-$message = new b3da\PusherBundle\Model\Message('title', 'message body', $msgSound, $msgNotificationId);
-$gcm->notify($recipient, $message->composeAndroidGcmMessage());
-# result:
-dump($gcm->getOutputAsObject());
+use b3da\PusherBundle\Service\GCM;
+
+public function send(GCM $gcm) {
+    $msgSound = 'default';  # optional - can be 'default', 'none', or notification sound name
+    $msgNotoficationId = 1;  # optional - increment for display multiple notification simultaneously
+    $message = new b3da\PusherBundle\Model\Message('title', 'message body', $msgSound, $msgNotificationId);
+    $gcm->notify($recipient, $message->composeAndroidGcmMessage());
+    # result:
+    dump($gcm->getOutputAsObject());
+}
 ```
 
 * IOS - Apple Push Notification Service
 ```php
-$msgSound = 'default';  # optional - can be 'default', 'none', or notification sound name
-$gcm = $this->get('b3da_pusher.ios.apn');
-$message = new b3da\PusherBundle\Model\Message('title', 'message body', $msgSound);
-$apn->notify($recipient, $message->composeIosMessage());
-# result:
-dump($apn->getOutputAsObject());
+use b3da\PusherBundle\Service\APN;
+
+public function send(APN $apn) {
+    $msgSound = 'default';  # optional - can be 'default', 'none', or notification sound name
+    $message = new b3da\PusherBundle\Model\Message('title', 'message body', $msgSound);
+    $apn->notify($recipient, $message->composeIosMessage());
+    # result:
+    dump($apn->getOutputAsObject());
+}
 ```
 
 
