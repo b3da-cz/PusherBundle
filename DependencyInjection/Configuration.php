@@ -17,10 +17,9 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('b3da_pusher');
+        $treeBuilder = new TreeBuilder('b3da_pusher');
 
-        $rootNode
+        $treeBuilder->getRootNode()
             ->children()
                 ->arrayNode('fcm')
                     ->addDefaultsIfNotSet()
